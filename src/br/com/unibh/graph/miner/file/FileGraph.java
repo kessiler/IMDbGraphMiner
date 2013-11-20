@@ -32,34 +32,39 @@ public class FileGraph {
         this.filePathMovie = filePathMovie;
     }
 
-    public Graph readGraphForFile() throws IOException {
+    public Graph<String, String> readGraphForFile() throws IOException {
         File fileMovie = new File(this.filePathMovie);
         BufferedReader fileBufferMovie = new BufferedReader(new FileReader(fileMovie));
         File fileCast = new File(this.filePathCast);
         BufferedReader fileBufferCast = new BufferedReader(new FileReader(fileCast));
-        List<String> namesCast = new ArrayList<String>();
         Map<String, List<String>> listGraph = new HashMap<String, List<String>>();
+        Graph<String, String> graphFile = new SparseMultigraph<String, String>();
         while (fileBufferMovie.ready()) {
             String lineFileMovie = fileBufferMovie.readLine();
             if(!lineFileMovie.isEmpty()) {
                 String [] movie = lineFileMovie.split(";");
                 String lineFileCast = fileBufferCast.readLine();
+                List<String> namesCast = new ArrayList<String>();
                 for(String nameCast : lineFileCast.split(";")) {
                     if(!nameCast.isEmpty()) {
-                        namesCast.add(nameCast);
+                        namesCast.add(nameCast.trim());
                     }
                 }
                 listGraph.put(movie[1], namesCast);
+                graphFile.addVertex(movie[1].trim());                 
             }
         }
-        Graph graphFile = new SparseMultigraph<String, String>();
+        fileBufferMovie.close();
+        fileBufferCast.close();
         Iterator<Map.Entry<String, List<String>>> hashGraph = listGraph.entrySet().iterator();
         while (hashGraph.hasNext()) {
-            Map.Entry<String, List<String>> graphNodes = hashGraph.next();
-            graphFile.addVertex(graphNodes.getKey().toString());
-            for(String cast : graphNodes.getValue()) {
-                graphFile.addVertex(cast);
-                graphFile.addEdge("", graphNodes.getKey().toString(), cast, EdgeType.UNDIRECTED);
+            Map.Entry<String, List<String>> graphNodes = hashGraph.next();              
+            List<String> castList = new ArrayList<String>(graphNodes.getValue());
+            for(String cast : castList) {
+            	if (!graphFile.getVertices().contains(cast)) {
+            		graphFile.addVertex(cast);
+            	}
+                graphFile.addEdge(graphNodes.getKey().toString() + ";" + cast, graphNodes.getKey().toString(), cast, EdgeType.UNDIRECTED);
             }
         }
         return graphFile;
