@@ -37,36 +37,36 @@ public class FileGraph {
         BufferedReader fileBufferMovie = new BufferedReader(new FileReader(fileMovie));
         File fileCast = new File(this.filePathCast);
         BufferedReader fileBufferCast = new BufferedReader(new FileReader(fileCast));
-        Map<String, List<String>> listGraph = new HashMap<String, List<String>>();
         Graph<String, String> graphFile = new SparseMultigraph<String, String>();
+        graphFile.addVertex("Director");
+        graphFile.addVertex("Cast");
         while (fileBufferMovie.ready()) {
             String lineFileMovie = fileBufferMovie.readLine();
+            Boolean isDirector =  Boolean.TRUE;
             if(!lineFileMovie.isEmpty()) {
                 String [] movie = lineFileMovie.split(";");
                 String lineFileCast = fileBufferCast.readLine();
-                List<String> namesCast = new ArrayList<String>();
+                graphFile.addVertex(movie[1].trim());
                 for(String nameCast : lineFileCast.split(";")) {
-                    if(!nameCast.isEmpty()) {
-                        namesCast.add(nameCast.trim());
+                    if (!graphFile.getVertices().contains(nameCast.trim())) {
+                        graphFile.addVertex(nameCast.trim());
                     }
+                    if (isDirector) {
+                        if(!graphFile.getOutEdges("Director").contains(nameCast.trim())) {
+                            graphFile.addEdge(nameCast.trim(), "Director", nameCast.trim(), EdgeType.UNDIRECTED);
+                        }
+                        isDirector = Boolean.FALSE;
+                    } else {
+                        if (!graphFile.getOutEdges("Cast").contains(nameCast.trim())) {
+                            graphFile.addEdge(nameCast.trim(), "Cast", nameCast.trim(), EdgeType.UNDIRECTED);
+                        }
+                    }
+                    graphFile.addEdge(movie[2] + " - " + nameCast.trim(), movie[1], nameCast.trim(), EdgeType.UNDIRECTED);
                 }
-                listGraph.put(movie[1], namesCast);
-                graphFile.addVertex(movie[1].trim());                 
             }
         }
         fileBufferMovie.close();
         fileBufferCast.close();
-        Iterator<Map.Entry<String, List<String>>> hashGraph = listGraph.entrySet().iterator();
-        while (hashGraph.hasNext()) {
-            Map.Entry<String, List<String>> graphNodes = hashGraph.next();              
-            List<String> castList = new ArrayList<String>(graphNodes.getValue());
-            for(String cast : castList) {
-            	if (!graphFile.getVertices().contains(cast)) {
-            		graphFile.addVertex(cast);
-            	}
-                graphFile.addEdge(graphNodes.getKey().toString() + ";" + cast, graphNodes.getKey().toString(), cast, EdgeType.UNDIRECTED);
-            }
-        }
         return graphFile;
     }
 
