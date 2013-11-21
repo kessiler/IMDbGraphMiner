@@ -1,37 +1,32 @@
 package br.com.unibh.graph.miner;
-import javax.swing.JFrame;
-
-import br.com.unibh.graph.miner.file.FileGraph;
-import br.com.unibh.graph.miner.algorithms.AlgorithmGraph;
-import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.visualization.BasicVisualizationServer;
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import edu.uci.ics.jung.visualization.renderers.Renderer;
-
+import java.awt.EventQueue;
 import java.io.IOException;
 
-public class Main {
+import br.com.unibh.graph.miner.algorithms.AlgorithmGraph;
+import br.com.unibh.graph.miner.view.MainWindow;
 
-    public static void main(String[] args) throws IOException {
-        FileGraph graphForFile = new FileGraph();
-        graphForFile.setFilePathMovie("./resources/movies.csv");
-        graphForFile.setFilePathCast("./resources/cast.csv");
-        Graph<String, String> graph = graphForFile.readGraphForFile();
-        AbstractLayout<String, String> layoutGraphResult = new CircleLayout<String, String>(graph);
-        BasicVisualizationServer<String,String> visualizationGraphResult = new BasicVisualizationServer<String,String>(layoutGraphResult);
-        visualizationGraphResult.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<String>());
-        Renderer.VertexLabel<String, String> VertexGraphResult = visualizationGraphResult.getRenderer().getVertexLabelRenderer();
-        VertexGraphResult.setPosition(Renderer.VertexLabel.Position.CNTR);
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(visualizationGraphResult);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        System.out.println("Quantidade de arestas: " + graph.getEdgeCount());
-		System.out.println("Quantidade de vértices " + graph.getVertexCount());
-		System.out.println("Arestas: " + graph.getEdges());
-		System.out.println("Vértices " + graph.getVertices());		
+public class Main {
+	public static void main(String[] args) throws IOException {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainWindow frame = new MainWindow();
+					frame.readFileForGraph();
+					frame.showGraphView();
+					frame.pack();
+					frame.setVisible(true);
+					AlgorithmGraph algGraph = new AlgorithmGraph();
+					algGraph.setGraph(frame.getGraph());
+					System.out.println("Qtd de atores: " + algGraph.getCountActors());
+					System.out.println("Qtd de diretores: " + algGraph.getCountDirectors());
+					System.out.println("Diretor de um filme especifico: " + algGraph.getDirectorsforMovie("Avatar (2009)"));
+					System.out.println("Atores de um filme especifico: " + algGraph.getActorsforMovie("Avatar (2009)"));
+					System.out.println("Melhores diretores por qtd de filmes: " + algGraph.getRankingDirectorsforQtdMovie());
+					System.out.println("Melhores atores por qtd de filmes: " + algGraph.getRankingActorsforQtdMovie());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
     }
 }
