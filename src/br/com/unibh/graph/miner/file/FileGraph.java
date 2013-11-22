@@ -44,7 +44,7 @@ public class FileGraph {
             String lineFileMovie = fileBufferMovie.readLine();
             Boolean isDirector =  Boolean.TRUE;
             if(!lineFileMovie.isEmpty()) {
-                String [] movie = lineFileMovie.split(";");
+                String[] movie = lineFileMovie.split(";");
                 String lineFileCast = fileBufferCast.readLine();
                 graphFile.addVertex(movie[1].trim());
                 for(String nameCast : lineFileCast.split(";")) {

@@ -44,10 +44,10 @@ public class MainWindow extends JFrame {
 	
 	private void createJMenuBar() {
         mnuBar = new JMenuBar();
-        mnuVisualization = new JMenu("Visualizações");        
+        mnuVisualization = new JMenu("VisualizaÃ§Ãµes");
         mnuCircle = new JMenuItem("Layout circular");
         mnuISOM   = new JMenuItem("Layout self-map (Meyer's)");
-        mnuKK     = new JMenuItem("Layout com distâncias específicas (Kamada-Kawai)");
+        mnuKK     = new JMenuItem("Layout com distÃ¢ncias especÃ­ficas (Kamada-Kawai)");
         mnuFR     = new JMenuItem("Layout FR - Fruchterman-Reingold");
         mnuUpdateGraph  = new JMenuItem("Recriar grafo");
         mnuExit   = new JMenuItem("Sair");
