@@ -18,6 +18,7 @@ import br.com.unibh.graph.miner.struct.LayoutTypeGraph;
 import edu.uci.ics.jung.graph.Graph;
 
 public class MainWindow extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JMenuBar mnuBar;
 	private JMenu mnuVisualization;
@@ -44,13 +45,13 @@ public class MainWindow extends JFrame {
 	
 	private void createJMenuBar() {
         mnuBar = new JMenuBar();
-        mnuVisualization = new JMenu("Visualizações");
-        mnuCircle = new JMenuItem("Layout circular");
+        mnuVisualization = new JMenu("Visualization");
+        mnuCircle = new JMenuItem("Circle Layout");
         mnuISOM   = new JMenuItem("Layout self-map (Meyer's)");
-        mnuKK     = new JMenuItem("Layout com distâncias específicas (Kamada-Kawai)");
+        mnuKK     = new JMenuItem("Layout Kamada-Kawai");
         mnuFR     = new JMenuItem("Layout FR - Fruchterman-Reingold");
-        mnuUpdateGraph  = new JMenuItem("Recriar grafo");
-        mnuExit   = new JMenuItem("Sair");
+        mnuUpdateGraph  = new JMenuItem("Reload Graph");
+        mnuExit   = new JMenuItem("Exit");
         initEvents();
         mnuVisualization.add(mnuCircle);
         mnuVisualization.add(mnuISOM);

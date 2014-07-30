@@ -17,14 +17,14 @@ public class Main {
 					frame.setVisible(true);
 					AlgorithmGraph algGraph = new AlgorithmGraph();
 					algGraph.setGraph(frame.getGraph());
-					System.out.println("Qtd de atores: " + algGraph.getCountActors());
-					System.out.println("Qtd de diretores: " + algGraph.getCountDirectors());
-					System.out.println("Diretor de um filme especifico: " + algGraph.getDirectorsforMovie("Avatar (2009)"));
-					System.out.println("Atores de um filme especifico: " + algGraph.getActorsforMovie("Avatar (2009)"));
-					System.out.println("Ranking diretores x filmes: " + algGraph.getRankingDirectorsforQtdMovie());
-					System.out.println("Ranking atores x filmes: " + algGraph.getRankingActorsforQtdMovie());
-                    System.out.println("Ranking diretores x bilheteria: " + algGraph.getRankingDirectorsforPrice());
-                    System.out.println("Ranking atores x bilheteria: " + algGraph.getRankingActorsforPrice());
+					System.out.println("Quantity of actors: " + algGraph.getCountActors());
+					System.out.println("Quantity of directors: " + algGraph.getCountDirectors());
+					System.out.println("Director of specific movie: " + algGraph.getDirectorsforMovie("Avatar (2009)"));
+					System.out.println("Actors of a specific movie: " + algGraph.getActorsforMovie("Avatar (2009)"));
+					System.out.println("Ranking directors x movies: " + algGraph.getRankingDirectorsforQtdMovie());
+					System.out.println("Ranking actors x movies: " + algGraph.getRankingActorsforQtdMovie());
+                    System.out.println("Ranking directors x box office: " + algGraph.getRankingDirectorsforPrice());
+                    System.out.println("Ranking actors x box office: " + algGraph.getRankingActorsforPrice());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
